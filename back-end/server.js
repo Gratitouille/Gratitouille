@@ -3,6 +3,7 @@ const path = require('path');
 const cors = require("cors");
 const mongoose = require('mongoose');
 const cookieParser = ('cookie-parser');
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const PORT = 5555;
 
@@ -12,13 +13,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// //serve html
-// app.get('/', function (req, res) {
-//   res.sendFile(path.resolve(__dirname, '../client/index.html'));
-// });
+// passport.use(new GoogleStrategy({
+//     clientID: GOOGLE_CLIENT_ID,
+//     clientSecret: GOOGLE_CLIENT_SECRET,
+//     callbackURL: "http://www.example.com/auth/google/callback"
+//   },
+//   function(accessToken, refreshToken, profile, cb) {
+//     User.findOrCreate({ googleId: profile.id }, function (err, user) {
+//       return cb(err, user);
+//     });
+//   }
+// ));
 
-
-
+//serve html
+app.get('/', function (req, res) {
+  res.sendFile(path.resolve(__dirname, '../client/index.html'));
+});
 
 
 
