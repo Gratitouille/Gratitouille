@@ -12,5 +12,13 @@
   "devDependencies": {
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  },
+  "dependencies": {
+    "@mui/styled-engine-sc": "^6.0.0-alpha.6",
+    "styled-components": "^6.1.1"
   }
 }
