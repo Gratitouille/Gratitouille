@@ -10,5 +10,5 @@
     "esModuleInterop": true,
     "outDir": "build"
   },
-  "include": ["client/**/*", "server/**/*"]
+  "include": ["client/**/*", "back-end/**/*"]
 }

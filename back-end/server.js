@@ -2,11 +2,11 @@ const express = require('express');
 const path = require('path');
 const cors = require("cors");
 const mongoose = require('mongoose');
-const cookieParser = ('cookie-parser');
+const cookieParser = require('cookie-parser');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
+const app = express();
 
 const PORT = 5555;
-
 
 app.use(cors());
 app.use(express.json());
@@ -25,12 +25,18 @@ app.use(cookieParser());
 //   }
 // ));
 
-//serve html
-app.get('/', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../client/index.html'));
+// //serve html
+// app.get('/', function (req, res) {
+//   res.sendFile(path.resolve(__dirname, '../dist/index.html'));
+// });
+
+// serve static pages
+app.use(express.static(path.resolve(__dirname, '../dist')));
+
+// Catch-all route to serve the main 'index.html' file
+app.get('*', function (req, res) {
+  res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
-
-
 
 //404 handler
 app.use('*', (req, res) => {

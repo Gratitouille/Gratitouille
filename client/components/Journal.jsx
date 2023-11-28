@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import Calendar from "./Calendar.jsx";
 import Affirmation from "./Affirmation.jsx";
+import { useState } from 'react';
 
 const Journal = () => {
     //setting the state of the date
@@ -14,8 +15,8 @@ const Journal = () => {
 
     return (
     <div>
-        <label for="Journal">Journal</label>
-        <Calendar selectedDate={selectedDate} onDateChange={handleDateChange} />
+        <h1>Journal</h1>
+        {/* <Calendar selectedDate={selectedDate} onDateChange={handleDateChange} /> */}
         {/* Which components are based on date change? */}
         <Affirmation selectedDate={selectedDate} />
     </div>
