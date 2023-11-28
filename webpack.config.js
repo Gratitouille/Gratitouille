@@ -4,17 +4,14 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: [
-    // entry point of our app
-    './client/index.js',
-  ],
+  entry: './client/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     filename: 'bundle.js',
   },
   devtool: 'eval-source-map',
-  mode: process.env.NODE_ENV,
+  mode: "development",
   devServer: {
     host: 'localhost',
     port: 8080,
@@ -22,7 +19,7 @@ module.exports = {
     hot: true,
     // fallback to root for other urls
     historyApiFallback: true,
-
+    disableDotRule: true,
     static: {
       // match the output path
       directory: path.resolve(__dirname, 'dist'),
@@ -39,12 +36,12 @@ module.exports = {
      */
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:5555',
         secure: false,
         
       },
       '/assets/**': {
-        target: 'http://localhost:3000/',
+        target: 'http://localhost:5555/',
         secure: false,
         
       },
@@ -79,7 +76,17 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',
+      template: './client/index.html',
+      minify: process.env.NODE_ENV === 'production'
+        ? {
+            collapseWhitespace: true,
+            removeComments: true,
+            removeRedundantAttributes: true,
+            removeScriptTypeAttributes: true,
+            removeStyleLinkTypeAttributes: true,
+            useShortDoctype: true,
+          }
+        : false,
     }),
   ],
   resolve: {
