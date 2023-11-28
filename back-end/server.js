@@ -2,11 +2,19 @@ const express = require('express');
 const path = require('path');
 const cors = require("cors");
 const mongoose = require('mongoose');
-const cookieParser = ('cookie-parser');
+const cookieParser = require('cookie-parser');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
+require('dotenv').config();
+
+const app = express();
 
 const PORT = 5555;
 
+const URI = process.env.MY_URI;
+
+mongoose.connect(URI)
+  .then(() => console.log('Connected to DB.'))
+  .catch(err => console.log(err));
 
 app.use(cors());
 app.use(express.json());
