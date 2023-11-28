@@ -2,12 +2,10 @@ const express = require('express');
 const path = require('path');
 const cors = require("cors");
 const mongoose = require('mongoose');
-const cookieParser = requirerequire('cookie-parser');
+const cookieParser = require('cookie-parser');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 const app = express();
 require('dotenv').config();
-
-const app = express();
 
 const PORT = 5555;
 const URI = process.env.MY_URI;

@@ -11,7 +11,7 @@ const Landing = () => {
     }
     return (
     <div>
-        Landing
+        Landings
         <button type="button" onClick={handleClick}>
             Go home
         </button>
