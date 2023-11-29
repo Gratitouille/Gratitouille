@@ -5,7 +5,7 @@ import '../style/Affirmation.css'
 const Affirmation = () => {
     return (
     <div>
-       <Box sx={{ border: 1}}> Affirmations </Box>
+       <Box id="affirmation" sx={{ border: 1}}> Affirmations </Box>
     </div>
     )
 };

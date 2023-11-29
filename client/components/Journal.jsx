@@ -5,6 +5,7 @@ import GratefulPrompt from './GratefulPrompt.jsx';
 import UserInput from './UserInput.jsx';
 import Prompt from './Prompt.jsx';
 import '../style/Journal.css';
+import Stack from '@mui/material/Stack'; 
 import { useState } from 'react';
 
 const Journal = () => {
@@ -21,13 +22,13 @@ const Journal = () => {
     <div>
         <h1>Journal</h1>
         <div className="journal-container">
-            <div className="left-container">
+            <Stack className="left-container" direction="column" spacing={2}>
                 <Affirmation selectedDate={selectedDate} />
                 <GratefulPrompt/>
                 <UserInput/>
                 <Prompt/>
                 <UserInput/>
-            </div>
+            </Stack>
             <div className="mid-container"></div>
             <div className="right-container">
                 <Calendar selectedDate={selectedDate} onDateChange={handleDateChange} />    
