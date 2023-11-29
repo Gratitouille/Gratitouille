@@ -41,7 +41,7 @@ module.exports = {
         
       },
       '/assets/**': {
-        target: 'http://localhost:5555/',
+        target: 'http://localhost:5555',
         secure: false,
         
       },

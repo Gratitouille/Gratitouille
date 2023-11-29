@@ -10,8 +10,10 @@ const Calendar = ({ selectedDate, onDateChange }) => {
     <div>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             {/* when users click on the date, the state is updated with the data from the clicked date */}
-            <DateCalendar date={selectedDate} onChange={handleDateChange}
-            />
+            <DateCalendar
+                    date={selectedDate}
+                    onChange={(newDate) => onDateChange(newDate)} // Call the onDateChange prop with the new date
+                />
         </LocalizationProvider>
     </div>
     )
