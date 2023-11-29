@@ -10,6 +10,9 @@ require('dotenv').config();
 const PORT = 5555;
 const URI = process.env.MY_URI;
 
+// controllers require
+const {affirmationController} = require('./controllers/affController');
+
 mongoose.connect(URI)
   .then(() => console.log('Connected to DB.'))
   .catch(err => console.log(err));
@@ -43,6 +46,11 @@ app.use(express.static(path.resolve(__dirname, '../dist')));
 app.get('*', function (req, res) {
   res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
+
+app.post('/api', affirmationController.createAff, (req, res) => {
+  res.status(200).json(res.locals.aff);
+})
+
 
 //404 handler
 app.use('*', (req, res) => {
