@@ -1,0 +1,12 @@
+.journal-container{
+    display: grid;
+    grid-template-columns: 70% 2% 28%; 
+}
+
+.left-container{
+    background-color: #f0f0f0;
+}
+
+.right-container{
+    background-color: #e0e0e0;
+}

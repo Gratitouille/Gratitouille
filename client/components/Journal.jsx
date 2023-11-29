@@ -1,6 +1,10 @@
 import React from 'react';
 import Calendar from "./Calendar.jsx";
 import Affirmation from "./Affirmation.jsx";
+import GratefulPrompt from './GratefulPrompt.jsx';
+import UserInput from './UserInput.jsx';
+import Prompt from './Prompt.jsx';
+import '../style/Journal.css';
 import { useState } from 'react';
 
 const Journal = () => {
@@ -16,9 +20,20 @@ const Journal = () => {
     return (
     <div>
         <h1>Journal</h1>
-        {/* <Calendar selectedDate={selectedDate} onDateChange={handleDateChange} /> */}
-        {/* Which components are based on date change? */}
-        <Affirmation selectedDate={selectedDate} />
+        <div className="journal-container">
+            <div className="left-container">
+                <Affirmation selectedDate={selectedDate} />
+                <GratefulPrompt/>
+                <UserInput/>
+                <Prompt/>
+                <UserInput/>
+            </div>
+            <div className="mid-container"></div>
+            <div className="right-container">
+                <Calendar selectedDate={selectedDate} onDateChange={handleDateChange} />    
+            </div>
+            {/* Which components are based on date change? */}
+        </div>
     </div>
     )
 };
