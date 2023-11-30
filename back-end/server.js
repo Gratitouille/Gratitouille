@@ -3,7 +3,8 @@ const path = require('path');
 const cors = require("cors");
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
-var GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const passport = require('passport');
 const app = express();
 require('dotenv').config();
 
@@ -22,32 +23,55 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// passport.use(new GoogleStrategy({
-//     clientID: GOOGLE_CLIENT_ID,
-//     clientSecret: GOOGLE_CLIENT_SECRET,
-//     callbackURL: "http://www.example.com/auth/google/callback"
-//   },
-//   function(accessToken, refreshToken, profile, cb) {
-//     User.findOrCreate({ googleId: profile.id }, function (err, user) {
-//       return cb(err, user);
-//     });
-//   }
-// ));
-
-// //serve html
-// app.get('/', function (req, res) {
-//   res.sendFile(path.resolve(__dirname, '../dist/index.html'));
-// });
-
 // serve static pages
 app.use(express.static(path.resolve(__dirname, '../dist')));
 
-// Catch-all route to serve the main 'index.html' file
-app.get('*', function (req, res) {
+//route to serve the main 'index.html' file
+app.get('/', function (req, res) {
   res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
 
+
+const {User} = require('./models/models.js');
+const id = process.env.CLIENT_ID;
+const secret = process.env.CLIENT_SECRET;
+passport.use(new GoogleStrategy({
+    clientID: id,
+    clientSecret: secret,
+    callbackURL: "http://localhost:5555/callback"
+  },
+  async function(accessToken, refreshToken, profile, cb) {
+    console.log('in google strategy callback function')
+    console.log('profile', profile)
+    const user = await User.create({ googleId: profile.id });
+    if (user) return cb(user);
+  }
+));
+
+//middleware api
+app.get('/oauth',(req, res, next) => {
+  console.log('oauth endpoint hit')
+  next();
+},
+  passport.authenticate('google', { scope: ['profile'] }));
+
+app.get('/callback', (req, res, next) => {
+  console.log('callback endpoint hit')
+  next();
+},
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    console.log('in passport auth middleware')
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
+
+
+
+
 app.post('/api', affirmationController.createAff, (req, res) => {
+  console.log('heyyyyy')
   res.status(200).json(res.locals.aff);
 })
 
