@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ESNext",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "jsx": "react",
+    "esModuleInterop": true,
+    "outDir": "build"
+  },
+  "include": ["client/**/*", "back-end/**/*"]
+}
