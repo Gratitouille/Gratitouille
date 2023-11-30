@@ -15,7 +15,6 @@ const Landing = () => {
         <button type="button" onClick={handleClick}>
             Go home
         </button>
-        <Affirmation/>
     </div>
     )
 };

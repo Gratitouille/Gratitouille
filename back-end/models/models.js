@@ -5,7 +5,7 @@ const affirmationSchema = new mongoose.Schema({
   affirmation: {type: String}
 })
 
-const Affirmation = mongoose.model('affirmation', affirmationSchema);
+const Affirmation = mongoose.model('Affirmation', affirmationSchema);
 
 const userSchema = new mongoose.Schema({
   googleId: {type: String, required: true}

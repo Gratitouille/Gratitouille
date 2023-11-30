@@ -23,7 +23,7 @@ const Journal = () => {
         <h1>Journal</h1>
         <div className="journal-container">
             <Stack className="left-container" direction="column" spacing={2}>
-                <Affirmation selectedDate={selectedDate} />
+                <Affirmation/>
                 <GratefulPrompt/>
                 <UserInput/>
                 <Prompt/>
