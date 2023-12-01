@@ -18,20 +18,20 @@ const Journal = () => {
         const fetchJournalEntry = async () => {
           try {
             // Make a request to check if a journal entry exists for the selected date
-            console.log("selectedDate:", selectedDate); 
             const response = await axios.get(`/journal/${selectedDate.$d}`);
+            console.log("response:", response.data); 
             const existingEntry = response.data;
     
-            // if (existingEntry) {
+            if (existingEntry) {
             //   // If entry exists, set it in state
-            //   setJournalEntry(existingEntry);
-            // } else {
+              setJournalEntry(existingEntry);
+            } else {
               // If entry does not exist, create an empty entry and save it
               const newEntry = { date: selectedDate.$d, gratefulInput: '' };
               console.log("newEntry:", newEntry);
               await axios.post('/journal', newEntry);
               setJournalEntry(newEntry);
-            // }
+            }
           } catch (error) {
             console.error('Error fetching or creating journal entry:', error);
           }

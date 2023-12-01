@@ -56,10 +56,7 @@ app.post('/journal', journalController.createEntry, (req, res) => {
 });
 
 // //check journal entry route
-// app.get('/journal/:date', affirmationController.getAffirmation, (req, res) => {
-//   console.log('getAffirmation route firing');
-//   res.json(res.locals.affirmations || {});
-// });
+app.get('/journal/:date', journalController.checkEntry);
 
 // Catch-all route to serve the main 'index.html' file
 app.get('*', function (req, res) {
