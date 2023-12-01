@@ -18,8 +18,8 @@ const Journal = () => {
         const fetchJournalEntry = async () => {
           try {
             // Make a request to check if a journal entry exists for the selected date
-            console.log("selectedDate:", selectedDate); 
             const response = await axios.get(`/journal/${selectedDate.$d}`);
+            console.log("response:", response.data); 
             const existingEntry = response.data;
     
             if (existingEntry) {
