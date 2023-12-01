@@ -35,18 +35,48 @@ app.get('/', function (req, res) {
 const {User} = require('./models/models.js');
 const id = process.env.CLIENT_ID;
 const secret = process.env.CLIENT_SECRET;
+
+let userInfo = {};
+
 passport.use(new GoogleStrategy({
     clientID: id,
     clientSecret: secret,
     callbackURL: "http://localhost:5555/callback"
   },
-  async function(accessToken, refreshToken, profile, cb) {
+  async function(accessToken, refreshToken, profile, done) {
     console.log('in google strategy callback function')
     console.log('profile', profile)
-    const user = await User.create({ googleId: profile.id });
-    if (user) return cb(user);
+    console.log('accesstoken', accessToken);
+    const user = await User.create({ 
+      firstName: profile.name.givenName,
+      lastName: profile.name.familyName,
+      googleId: profile.id
+    });
+    console.log('before cb')
+    userInfo = {
+      token: accessToken,
+      firstName: profile.name.givenName,
+      lastName: profile.name.familyName
+    }
+    // async function getUserInfoAsync(accessToken, profile) {
+    //   return await new Promise((resolve, reject) => {
+    //     try {
+    //       userInfo = {
+    //         token: accessToken,
+    //         firstName: profile.name.givenName,
+    //         lastName: profile.name.familyName
+    //       };
+    //       resolve(userInfo);
+    //     } catch (error) {
+    //       reject(error);
+    //     }
+    //   });
+    // }
+    // getUserInfoAsync();
+    console.log('userinfo', userInfo)
+    return done(null, null);
   }
-));
+  ));
 
 //middleware api
 app.get('/oauth',(req, res, next) => {
@@ -55,20 +85,14 @@ app.get('/oauth',(req, res, next) => {
 },
   passport.authenticate('google', { scope: ['profile'] }));
 
-app.get('/callback', (req, res, next) => {
-  console.log('callback endpoint hit')
-  next();
-},
-  passport.authenticate('google', { failureRedirect: '/login' }),
+app.get('/callback',
+  passport.authenticate('google', { failureRedirect: `/?token=${userInfo.token}&first=${userInfo.firstName}&last=${userInfo.lastName}` }),
+  // ?token=${userInfo.token}&first=${userInfo.firstName}&last=${userInfo.lastName}
   function(req, res) {
     console.log('in passport auth middleware')
     // Successful authentication, redirect home.
     res.redirect('/');
   });
-
-
-
-
 
 app.post('/api', affirmationController.createAff, (req, res) => {
   console.log('heyyyyy')

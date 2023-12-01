@@ -1,28 +1,26 @@
-const express = require("express");
-
-const app = express();
-
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const passport =require("passport")
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
 require('dotenv').config();
+const id = process.env.CLIENT_ID;
+const secret = process.env.CLIENT_SECRET;
 
-const id = process.env.clientID;
-const secret = process.env.clientSecret;
+
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+        done(null, user);
+});
+
 passport.use(new GoogleStrategy({
-    clientID: id,
-    clientSecret: secret,
-    callbackURL: "http://localhost:5555/oauth"
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
-  }
+        clientID: id,
+        clientSecret: secret,
+        callbackURL: "http://localhost:5555/callback",
+        passReqToCallback: true
+    },
+    function(request, accessToken, refreshToken, profile, done) {
+            return done(null, profile);
+    }
 ));
-
-app.get('/auth/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    
-    res.status(200).json({message: success});
-  });

@@ -8,6 +8,9 @@ const affirmationSchema = new mongoose.Schema({
 const Affirmation = mongoose.model('affirmation', affirmationSchema);
 
 const userSchema = new mongoose.Schema({
+  firstName: {type: String},
+  lastName: {type: String},
+  // email: {type: String, required: true},
   googleId: {type: String, required: true}
 })
 
