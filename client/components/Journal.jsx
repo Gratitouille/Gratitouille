@@ -22,16 +22,16 @@ const Journal = () => {
             const response = await axios.get(`/journal/${selectedDate.$d}`);
             const existingEntry = response.data;
     
-            // if (existingEntry) {
+            if (existingEntry) {
             //   // If entry exists, set it in state
-            //   setJournalEntry(existingEntry);
-            // } else {
+              setJournalEntry(existingEntry);
+            } else {
               // If entry does not exist, create an empty entry and save it
               const newEntry = { date: selectedDate.$d, gratefulInput: '' };
               console.log("newEntry:", newEntry);
               await axios.post('/journal', newEntry);
               setJournalEntry(newEntry);
-            // }
+            }
           } catch (error) {
             console.error('Error fetching or creating journal entry:', error);
           }
