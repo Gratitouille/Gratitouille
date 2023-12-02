@@ -43,6 +43,9 @@ export default function SignIn() {
   function handleSignUp() {
     navigate("/signup");
   }
+  function handleGoogleSignIn() {
+    window.location = "http://localhost:5555/oauth";
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -68,6 +71,7 @@ export default function SignIn() {
             variant="outlined"
             startIcon={<Avatar src={googleIcon} />}
             fullWidth
+            onClick={handleGoogleSignIn}
           >
             Login with Google
           </Button>
