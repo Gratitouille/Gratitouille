@@ -11,7 +11,7 @@ const session = require('express-session');
 
 const PORT = 5555;
 const URI = process.env.MY_URI;
-
+// Start
 // controllers require
 const affirmationController = require('./controllers/affController');
 const journalController = require('./controllers/journalController');
@@ -52,8 +52,8 @@ app.get('/oauth',
 ));
 app.get('/callback',
     passport.authenticate( 'google', {
-        successRedirect: '/authorized',
-        failureRedirect: '/auth/google/failure'
+        successRedirect: '/journal',
+        failureRedirect: '/signup'
 }));
 app.get('/auth/google/failure', (req, res)=>{
   res.send('Oops');
