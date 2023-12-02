@@ -7,6 +7,7 @@ import '../style/Journal.css';
 import Stack from '@mui/material/Stack'; 
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import gifImage from '../assets/rat-dancing.gif';
 
 const Journal = () => {
     //setting the state of the date
@@ -51,7 +52,10 @@ const Journal = () => {
 
     return (
     <div>
-        <h1>Journal</h1>
+        <div className="top-container">
+            <h1 id="journal-text">Welcome back! Nigel is happy to see you again.</h1>  
+            <img id="rat-image" src={gifImage} alt="Your GIF" />
+        </div>
         <div className="journal-container">
             <Stack className="left-container" direction="column" spacing={2}>
                 <Affirmation/>
