@@ -11,7 +11,7 @@ const session = require('express-session');
 
 const PORT = 5555;
 const URI = process.env.MY_URI;
-
+// Start
 // controllers require
 const affirmationController = require('./controllers/affController');
 const journalController = require('./controllers/journalController');
