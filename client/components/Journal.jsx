@@ -56,7 +56,8 @@ const Journal = () => {
             <Stack className="left-container" direction="column" spacing={2}>
                 <Affirmation/>
                 <GratefulPrompt/>
-                <UserInput/>
+                <UserInput selectedDate={selectedDate} initialGratefulInput={journalEntry.gratefulInput} // Pass the correct initial value
+/>
                 {/* <Prompt/>
                 <UserInput/> */}
             </Stack>

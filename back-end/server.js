@@ -58,6 +58,9 @@ app.post('/journal', journalController.createEntry, (req, res) => {
 // //check journal entry route
 app.get('/journal/:date', journalController.checkEntry);
 
+//save journal route
+app.post('/journal/:date/save-response', journalController.saveUserResponse);
+
 // Catch-all route to serve the main 'index.html' file
 app.get('*', function (req, res) {
   res.sendFile(path.resolve(__dirname, '../dist/index.html'));
