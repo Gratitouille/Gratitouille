@@ -8,6 +8,7 @@ import Stack from '@mui/material/Stack';
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import gifImage from '../assets/rat-dancing.gif';
+import Typography from '@mui/material/Typography';
 
 const Journal = () => {
     //setting the state of the date
@@ -53,7 +54,11 @@ const Journal = () => {
     return (
     <div>
         <div className="top-container">
-            <h1 id="journal-text">Welcome back! Nigel is happy to see you again.</h1>  
+            <h1 id="journal-text">
+                <Typography fontSize = {45} fontFamily="'Nanum Pen Script', cursive">
+                    Welcome back! Nigel is happy to see you again.
+                </Typography>
+            </h1>  
             <img id="rat-image" src={gifImage} alt="Your GIF" />
         </div>
         <div className="journal-container">

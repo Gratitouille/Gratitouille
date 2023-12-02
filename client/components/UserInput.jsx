@@ -3,6 +3,15 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#87CEEB', // Light Blue
+    },
+  },
+});
 
 const UserInput = ({ selectedDate, initialGratefulInput }) => {
   const [gratefulInput, setGratefulInput] = useState(initialGratefulInput || '');
@@ -47,7 +56,7 @@ const UserInput = ({ selectedDate, initialGratefulInput }) => {
         sx={{ width: '100%' }}
       />
       <Button variant="contained" color="primary" onClick={handleSaveResponse}>
-        Save Response
+        Save
       </Button>
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
 import axios from "axios";
 import '../style/Affirmation.css';
+import Typography from '@mui/material/Typography';
 
 const Affirmation = () => {
   const [affirmation, setAffirmation] = useState('');
@@ -26,8 +27,16 @@ const Affirmation = () => {
 
   return (
     <div>
-        <Box textAlign = "center" padding = { 1 } fontSize = {25} sx={{ border: 1, borderRadius: 1 }}>Affirm Yourself</Box>
-        <Box textAlign = "center" padding = { 1 } fontSize = { 22 } > {affirmation || 'Loading affirmation...'} </Box>
+        <Box textAlign = "center" padding = { 1 } sx={{ border: 1, borderRadius: 2 }}>
+            <Typography fontSize = {35} fontFamily="'Nanum Pen Script', cursive">
+            Affirm Yourself
+            </Typography>
+        </Box>
+        <Box textAlign = "center" padding = { 1 } fontSize = { 22 } > 
+            <Typography fontSize = {30} fontFamily="'Nanum Pen Script', cursive">
+                {affirmation || 'Loading affirmation...'} 
+            </Typography>
+        </Box>
     </div>
   );
 };
