@@ -18,3 +18,17 @@
     grid-column: 3;
     grid-row: 1 / span 5;
 }
+
+.top-container{
+    text-align: center;
+}
+
+/* #journal-text{
+    border: 1px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+#rat-image{
+    text-align: center;
+} */

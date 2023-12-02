@@ -1,38 +1,65 @@
-import React from "react";
-import Box from "@mui/material/Box";
+import React, { useState, useEffect } from 'react';
+import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useState } from 'react';
+import axios from 'axios';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const UserInput = () => {
-    const [inputValue, setInputValue] = useState('');
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#87CEEB', // Light Blue
+    },
+  },
+});
 
-    const handleInputChange = (event) => {
-        setInputValue(event.target.value);
-    };
+const UserInput = ({ selectedDate, initialGratefulInput }) => {
+  const [gratefulInput, setGratefulInput] = useState(initialGratefulInput || '');
 
-    const handleSaveResponse = () => {
-        // Add logic to save the response to the database
-        console.log('Saving response:', inputValue);
-        // You can make an API call to save the response to your database here
-      };
+  // Update the state when the initialGratefulInput prop changes
+  useEffect(() => {
+    setGratefulInput(initialGratefulInput || '');
+  }, [initialGratefulInput]);
 
-    return (
+  const handleInputChange = (event) => {
+    setGratefulInput(event.target.value);
+  };
+
+  const handleSaveResponse = async () => {
+    try {
+      console.log("gratefulInput:", gratefulInput);
+      // Check if selectedDate is defined and not null
+      if (selectedDate && selectedDate.$d) {
+        // Make an API call to save the response to the database
+        const response = await axios.post(`/journal/${selectedDate.$d}/save-response`, {
+          gratefulInput,
+        });
+
+        console.log('Saved response:', response.data);
+      } else {
+        console.error('Error: selectedDate is null or undefined.');
+      }
+    } catch (error) {
+      console.error('Error saving response:', error);
+    }
+  };
+
+  return (
     <div>
-       <TextField
+      <TextField
         label="Journal here..."
         variant="outlined"
         multiline
         rows={4}
-        value={inputValue}
+        value={gratefulInput}
         onChange={handleInputChange}
         sx={{ width: '100%' }}
       />
       <Button variant="contained" color="primary" onClick={handleSaveResponse}>
-        Save Response
+        Save
       </Button>
     </div>
-    )
+  );
 };
 
-export default UserInput; 
+export default UserInput;
