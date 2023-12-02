@@ -25,59 +25,63 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+//IS LOGGED IN MIDDLEWARE. ITS IN THE SERVER THO
 function isLoggedIn(req,res,next){
   console.log('checking for login');
+  console.log('req user', req.user);
   req.user ? next() : res.sendStatus(401);
 };
 
 // serve static pages
 app.use(express.static(path.resolve(__dirname, '../dist')));
 
-
-//auth
+//AUTH
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false }
 }))
-
 app.use(passport.initialize());
+app.use(passport.session());
 
+//OAUTH ROUTES
 app.get('/oauth',
   passport.authenticate('google', { scope:
       [ 'email', 'profile' ] }
 ));
-
-app.get( '/callback',
+app.get('/callback',
     passport.authenticate( 'google', {
         successRedirect: '/authorized',
         failureRedirect: '/auth/google/failure'
 }));
-
 app.get('/auth/google/failure', (req, res)=>{
   res.send('Oops');
 })
-
 app.get('/authorized',isLoggedIn, (req,res)=> {
   const name = req.user.displayName;
   res.send('we did it, ' + name);
 })
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.status(200).redirect('/');
+})
+
 
 //affirmation route
-app.get('/affirmation', affirmationController.getAffirmation, (req, res) => {
+app.get('/affirmation', isLoggedIn, affirmationController.getAffirmation, (req, res) => {
   console.log('getAffirmation route firing');
   res.json(res.locals.affirmations || {});
 });
 
 //check journal entry if doesn't exist
-app.post('/journal', journalController.createEntry, (req, res) => {
+app.post('/journal', isLoggedIn, journalController.createEntry, (req, res) => {
   console.log('createEntry route firing');
   res.json({ message: 'Journal entry created successfully', entry: res.locals.createdEntry });
 });
 
 // //check journal entry route
-app.get('/journal/:date', journalController.checkEntry);
+app.get('/journal/:date', isLoggedIn, journalController.checkEntry);
 
 // Catch-all route to serve the main 'index.html' file
 app.get('*', function (req, res) {
