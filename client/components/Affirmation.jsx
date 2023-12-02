@@ -26,7 +26,8 @@ const Affirmation = () => {
 
   return (
     <div>
-      <Box id="affirmation" sx={{ border: 1}}> {affirmation || 'Loading affirmation...'} </Box>
+        <Box textAlign = "center" padding = { 1 } fontSize = {25} sx={{ border: 1, borderRadius: 1 }}>Affirm Yourself</Box>
+        <Box textAlign = "center" padding = { 1 } fontSize = { 22 } > {affirmation || 'Loading affirmation...'} </Box>
     </div>
   );
 };

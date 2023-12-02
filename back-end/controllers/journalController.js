@@ -40,4 +40,29 @@ try {
   }
 };
 
+journalController.saveUserResponse = async function (req, res, next) {
+    try {
+      const { date } = req.params;
+      const { gratefulInput } = req.body;
+      console.log("saveUserResponse request body:", req.body); // Log the entire request body
+     console.log("gratefulInput response:", gratefulInput);
+
+      // Find the journal entry for the given date
+      const existingEntry = await JournalEntry.findOne({ date });
+  
+      if (existingEntry) {
+        // Update the journal entry with the user's response
+        existingEntry.gratefulInput = gratefulInput;
+        await existingEntry.save();
+        res.status(200).json(existingEntry);
+      } else {
+        // Handle the case where the entry doesn't exist
+        res.status(404).json({ error: 'Journal entry not found' });
+      }
+    } catch (error) {
+      console.error('Error saving user response:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+
 module.exports = journalController;
