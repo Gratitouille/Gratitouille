@@ -11,7 +11,8 @@ const PORT = 5555;
 const URI = process.env.MY_URI;
 
 // controllers require
-const {affirmationController} = require('./controllers/affController');
+const affirmationController = require('./controllers/affController');
+const journalController = require('./controllers/journalController');
 
 mongoose.connect(URI)
   .then(() => console.log('Connected to DB.'))
@@ -42,15 +43,25 @@ app.use(cookieParser());
 // serve static pages
 app.use(express.static(path.resolve(__dirname, '../dist')));
 
+//affirmation route
+app.get('/affirmation', affirmationController.getAffirmation, (req, res) => {
+  console.log('getAffirmation route firing');
+  res.json(res.locals.affirmations || {});
+});
+
+//check journal entry if doesn't exist
+app.post('/journal', journalController.createEntry, (req, res) => {
+  console.log('createEntry route firing');
+  res.json({ message: 'Journal entry created successfully', entry: res.locals.createdEntry });
+});
+
+// //check journal entry route
+app.get('/journal/:date', journalController.checkEntry);
+
 // Catch-all route to serve the main 'index.html' file
 app.get('*', function (req, res) {
   res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
-
-app.post('/api', affirmationController.createAff, (req, res) => {
-  res.status(200).json(res.locals.aff);
-})
-
 
 //404 handler
 app.use('*', (req, res) => {

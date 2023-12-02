@@ -1,9 +1,10 @@
 import React from "react";
+import Box from '@mui/material/Box';
 
 const Prompt = () => {
     return (
     <div>
-        Variable prompts.
+        <Box id="variable-prompts" sx={{ border: 1}}> Variable Prompts </Box>
     </div>
     )
 };

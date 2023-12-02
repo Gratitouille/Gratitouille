@@ -1,16 +1,48 @@
-import React from 'react';
 import Calendar from "./Calendar.jsx";
 import Affirmation from "./Affirmation.jsx";
 import GratefulPrompt from './GratefulPrompt.jsx';
 import UserInput from './UserInput.jsx';
 import Prompt from './Prompt.jsx';
 import '../style/Journal.css';
-import { useState } from 'react';
+import Stack from '@mui/material/Stack'; 
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 
 const Journal = () => {
     //setting the state of the date
     const [selectedDate, setSelectedDate] = useState(null);
-
+    const [journalEntry, setJournalEntry] = useState({ date: null, gratefulInput: '' });
+    
+    // check to see if a journal entry exists...
+    useEffect(() => {
+        const fetchJournalEntry = async () => {
+          try {
+            // Make a request to check if a journal entry exists for the selected date
+            const response = await axios.get(`/journal/${selectedDate.$d}`);
+            console.log("response:", response.data); 
+            const existingEntry = response.data;
+    
+            if (existingEntry) {
+            //   // If entry exists, set it in state
+              setJournalEntry(existingEntry);
+            } else {
+              // If entry does not exist, create an empty entry and save it
+              const newEntry = { date: selectedDate.$d, gratefulInput: '' };
+              console.log("newEntry:", newEntry);
+              await axios.post('/journal', newEntry);
+              setJournalEntry(newEntry);
+            }
+          } catch (error) {
+            console.error('Error fetching or creating journal entry:', error);
+          }
+        };
+    
+        // Fetch or create journal entry when the component mounts or when the date changes
+        if (selectedDate) {
+          fetchJournalEntry();
+        }
+      }, [selectedDate]);
+    
     //callback to handle date changes
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -21,13 +53,13 @@ const Journal = () => {
     <div>
         <h1>Journal</h1>
         <div className="journal-container">
-            <div className="left-container">
-                <Affirmation selectedDate={selectedDate} />
+            <Stack className="left-container" direction="column" spacing={2}>
+                <Affirmation/>
                 <GratefulPrompt/>
                 <UserInput/>
-                <Prompt/>
-                <UserInput/>
-            </div>
+                {/* <Prompt/>
+                <UserInput/> */}
+            </Stack>
             <div className="mid-container"></div>
             <div className="right-container">
                 <Calendar selectedDate={selectedDate} onDateChange={handleDateChange} />    
